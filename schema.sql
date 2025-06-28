@@ -1,42 +1,47 @@
-DROP TABLE if EXISTS drugs;
+DROP TABLE if EXISTS drugs, ingredients, drug_by_ingred, patients, patients_contraindications, prescriptions, doctor;
 
 CREATE TABLE drugs (
-id SERIAL PRIMARY KEY,
-name VARCHAR(60) NOT NULL,
-generic VARCHAR(60) NOT NULL,
-form VARCHAR(20) NOT NULL,
-dosage_mg INT,
-mfid INT
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(60),
+    generic VARCHAR(60),
+    form VARCHAR(20),
+    dosage_mg INT,
+    mfid INT
 );
 CREATE TABLE ingredients (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(60) NOT NULL,
-    formula VARCHAR(60) NOT NULL,
-    controlled_substance BOOLEAN NOT NULL,
-    description TEXT
+    name TEXT,
+    active BOOLEAN NOT NULL
 );
 CREATE TABLE drug_by_ingred (
-    id SERIAL PRIMARY KEY,
     drug INT references drugs(id),
     ingred INT references ingredients(id),
-    dose_mg INT NOT NULL
+    PRIMARY KEY (drug, ingred)
 );
-CREATE TABLE patient (
+CREATE TABLE patients (
     id SERIAL PRIMARY KEY,
     first VARCHAR(50) NOT NULL,
     last VARCHAR(50) NOT NULL,
     birth DATE,
     sex VARCHAR(8)
 );
-CREATE TABLE patient_conditions (
+CREATE TABLE conditions (
     id SERIAL PRIMARY KEY,
-    patient_id INT references patient(id),
-    allergy VARCHAR(60),
-    condition TEXT
+    name TEXT UNIQUE NOT NULL
+);
+CREATE TABLE patients_contraindications (
+    patients_id INT references patients(id),
+    condition_id INT references conditions(id),
+    PRIMARY KEY (patients_id, condition_id)
+);
+CREATE TABLE drug_conditions (
+    drug_id REFERENCES drugs(id),
+    condition_id REFERENCES conditions(id),
+    PRIMARY KEY (drug_id, condition_id)
 );
 CREATE TABLE prescriptions (
     id SERIAL PRIMARY KEY,
-    patient_id INT references patient(id),
+    patients_id INT references patients(id),
     drug_id INT references drugs(id),
     dose_mg INT,
     frequency TEXT,

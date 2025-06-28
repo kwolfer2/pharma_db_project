@@ -1,0 +1,88 @@
+INSERT INTO drugs (name, generic, form, dosage_mg) VALUES
+    ('Lipitor', 'Atorvastatin Calcium', 'TABS', 20),
+    ('Synthroid', 'Levothyroxine Sodium', 'TABS', 100),
+    ('Amoxil', 'Amoxicillin', 'CAPS', 500),
+    ('Norvasc', 'Amlodipine Besylate', 'TABS', 10),
+    ('Zithromax', 'Azithromycin', 'TABS', 500),
+    ('Glucophage', 'Metformin HCl', 'TABS', 1000),
+    ('Augmentin', 'Amoxicillin + Clavulanate', 'TABS', 875),
+    ('Prilosec', 'Omeprazole', 'CAPS', 20),
+    ('Advil', 'Ibuprofen', 'TABS', 200),
+    ('Plavix', 'Clopidogrel Bisulfate', 'TABS', 75),
+    ('Crestor', 'Rosuvastatin Calcium', 'TABS', 10),
+    ('Tenormin', 'Atenolol', 'TABS', 50),
+    ('Prozac', 'Fluoxetine HCl', 'CAPS', 20),
+    ('Paxil', 'Paroxetine HCl', 'TABS', 20),
+    ('Lasix', 'Furosemide', 'TABS', 40),
+    ('Cozaar', 'Losartan Potassium', 'TABS', 50),
+    ('Xanax', 'Alprazolam', 'TABS', 1),
+    ('Valium', 'Diazepam', 'TABS', 5),
+    ('Effexor XR', 'Venlafaxine HCl', 'CAPS', 75),
+    ('Wellbutrin SR', 'Bupropion HCl', 'TABS', 150),
+    ('Abilify', 'Aripiprazole', 'TABS', 10),
+    ('Neurontin', 'Gabapentin', 'CAPS', 300),
+    ('Topamax', 'Topiramate', 'TABS', 50),
+    ('Zoloft', 'Sertraline HCl', 'TABS', 100),
+    ('Lexapro', 'Escitalopram Oxalate', 'TABS', 10),
+    ('Celexa', 'Citalopram Hydrobromide', 'TABS', 20),
+    ('Keflex', 'Cephalexin', 'CAPS', 500),
+    ('Cipro', 'Ciprofloxacin HCl', 'TABS', 500),
+    ('Flagyl', 'Metronidazole', 'TABS', 500),
+    ('Bactrim DS', 'Sulfamethoxazole-Trimethoprim', 'TABS', 800),
+    ('Zyrtec', 'Cetirizine HCl', 'TABS', 10),
+    ('Claritin', 'Loratadine', 'TABS', 10),
+    ('Allegra', 'Fexofenadine HCl', 'TABS', 180),
+    ('Singulair', 'Montelukast Sodium', 'TABS', 10),
+    ('Lantus', 'Insulin Glargine', 'INJ', 100),
+    ('Humalog', 'Insulin Lispro', 'INJ', 100),
+    ('Actos', 'Pioglitazone HCl', 'TABS', 30),
+    ('Glucotrol XL', 'Glipizide ER', 'TABS', 10),
+    ('Micronase', 'Glyburide', 'TABS', 5),
+    ('Tricor', 'Fenofibrate', 'TABS', 145),
+    ('Protonix', 'Pantoprazole Sodium', 'TABS', 40),
+    ('Nexium', 'Esomeprazole Magnesium', 'CAPS', 40),
+    ('Flexeril', 'Cyclobenzaprine HCl', 'TABS', 10),
+    ('Mobic', 'Meloxicam', 'TABS', 15),
+    ('Naprosyn', 'Naproxen', 'TABS', 500),
+    ('Motrin', 'Ibuprofen', 'TABS', 600),
+    ('Catapres', 'Clonidine HCl', 'TABS', 0.1),
+    ('Adderall', 'Amphetamine/Dextroamphetamine', 'TABS', 20),
+    ('Vyvanse', 'Lisdexamfetamine', 'CAPS', 30),
+    ('Ambien', 'Zolpidem Tartrate', 'TABS', 10);
+
+    -- Fake Patients
+
+    INSERT INTO patient (first, last, birth, sex) VALUES
+        ('Kurt', 'Wolfer', '1996-07-01', 'male'),
+        ('Bob', 'Test', '2001-01-01', 'male'),
+        ('Tess', 'Test', '2000-01-01', 'female'),
+        ('Nick', 'Smith', '1901-12-12', 'male'),
+        ('Brianna', 'Hanson', '2006-04-30', 'female');
+
+    -- Fake Doctors
+
+    INSERT INTO doctor (first, last, title, location) VALUES
+        ('Gary', 'Oldman', 'Dr.', 'Cincinnati, OH'),
+        ('Tara', 'Strong', 'Mrs.', 'Toronto, CA'),
+        ('Michael', 'Jordan', 'Mr.', 'Wilmington, NC'),
+        ('Brian', 'Kibler', 'Prof', 'City, ID');
+
+    -- Common Conditions
+
+    INSERT INTO conditions (name) VALUES
+        ('Penicillin Allergy'),
+        ('Sulfa Allergy'),
+        ('NSAID Sensitivity'),
+        ('Lactose Intolerance'),
+        ('Alcohol Use'),
+        ('Liver Disease'),
+        ('Kidney Disease'),
+        ('Pregnancy'),
+        ('High Blood Pressure'),
+        ('G6PD Deficiency');
+
+        -- Contraindications i.e. pre-existing condition that should prohibit drug use
+
+    INSERT INTO drug_conditions (drug_id, condition_id) VALUES
+    ((SELECT id from drugs WHERE name = 'Lipitor'), (SELECT id FROM conditions WHERE name = 'Pregnancy')),
+    ((SELECT id from drugs WHERE name = 'Lipitor'), (SELECT id FROM conditions WHERE name = 'Liver Disease'));
